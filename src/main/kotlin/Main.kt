@@ -5,8 +5,7 @@ fun main() {
     println(jugador1.getDetalles())
     jugador1.guardarJugador()
 
-    val jugador2 = Jugador("Godofredo", 1, 2, 3, 4)
-    jugador2.cargarJugador()
+    val jugador2 = cargarJugador("Godofredo")
     jugador2.kills++
     jugador2.kills++
     jugador2.tiempoJugado++

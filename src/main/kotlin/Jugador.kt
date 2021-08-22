@@ -1,6 +1,7 @@
+import com.google.gson.Gson
 import java.io.File
 
-class Jugador(var nombre : String = "",
+data class Jugador(var nombre : String = "",
               var partidasJugadas : Int = 0,
               var tiempoJugado : Int = 0,
               var kills : Int = 0,
@@ -16,22 +17,26 @@ class Jugador(var nombre : String = "",
 
     fun guardarJugador(){
         val archivo = File("Jugadores/$nombre.txt")
-        archivo.writeText("${partidasJugadas}\n")
-        archivo.appendText("${tiempoJugado}\n")
-        archivo.appendText("${kills}\n")
-        archivo.appendText("${deaths}\n")
+        archivo.writeText(toJson())
     }
 
-    fun cargarJugador(){
-        try {
-            val archivo = File("Jugadores/$nombre.txt")
-            val lineas = archivo.readLines()
-            partidasJugadas = lineas[0].toInt()
-            tiempoJugado = lineas[1].toInt()
-            kills = lineas[2].toInt()
-            deaths = lineas[3].toInt()
-        } catch (exception : Exception) {
-            println("Error la leer los datos.")
-        }
+    private fun toJson(): String {
+        val gson = Gson()
+        return gson.toJson(this)
     }
+}
+
+
+fun cargarJugador(nombre: String): Jugador{
+    return try {
+        val archivo = File("Jugadores/$nombre.txt")
+        fromJson(archivo.readText())
+    } catch (exception : Exception) {
+        println("No hay datos disponibles de este jugador")
+        Jugador(nombre = nombre)
+    }
+}
+private fun fromJson(json: String) : Jugador {
+    val gson = Gson()
+    return gson.fromJson(json, Jugador::class.java)
 }
