@@ -26,7 +26,6 @@ data class Jugador(var nombre : String = "",
     }
 }
 
-
 fun cargarJugador(nombre: String): Jugador{
     return try {
         val archivo = File("Jugadores/$nombre.txt")
@@ -36,6 +35,7 @@ fun cargarJugador(nombre: String): Jugador{
         Jugador(nombre = nombre)
     }
 }
+
 private fun fromJson(json: String) : Jugador {
     val gson = Gson()
     return gson.fromJson(json, Jugador::class.java)
